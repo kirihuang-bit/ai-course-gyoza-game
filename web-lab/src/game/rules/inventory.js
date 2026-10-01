@@ -8,11 +8,13 @@
 //   rushBuy  今天倉庫不夠、臨時加購了幾份（沒有就是 0）
 // 回傳：'ok'（正常）| 'low'（需要補貨）| 'out'（缺貨）
 export function checkIngredient({ stock, safety, rushBuy }) {
+  if (stock <= 0 || rushBuy > 0) return 'out';
+  if (stock <= safety) return 'low';
   return 'ok';
 }
 
 // 輸入：打烊後剩幾份、安全量
 // 回傳：建議追加叫貨幾份
 export function reorderAmount({ stock, safety }) {
-  return 0;
+  return Math.max(0, safety * 2 - stock);
 }
