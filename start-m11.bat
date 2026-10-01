@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-rem M11 一鍵啟動:雙擊這個檔,就會打開 GYOZA WOOD 練習專案。
+rem 一鍵啟動:雙擊這個檔,就會打開 GYOZA WOOD 鍋貼店經營遊戲。
 cd /d "%~dp0web-lab"
 
 where node >nul 2>nul

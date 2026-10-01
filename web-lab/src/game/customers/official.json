@@ -1,0 +1,187 @@
+[
+  {
+    "name": "上班族",
+    "intro": "午休只有一小時的上班族",
+    "budget": 100,
+    "wants": [
+      "招牌鍋貼",
+      "紅茶"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 10,
+    "lines": {
+      "bought": "吃飽了，下午開會不怕了。",
+      "hated_on_menu": "今天的菜單我不太行。",
+      "not_on_menu": "沒有招牌鍋貼？那我去便利商店。",
+      "sold_out": "賣完了？早知道早點下樓。",
+      "too_expensive": "這價格，我的午餐預算不夠。"
+    }
+  },
+  {
+    "name": "窮學生",
+    "intro": "月底只剩幾百塊的大學生",
+    "budget": 60,
+    "wants": [
+      "招牌鍋貼",
+      "豆漿"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 8,
+    "lines": {
+      "bought": "銅板價吃飽，感動。",
+      "hated_on_menu": "這我不敢吃，下次見。",
+      "not_on_menu": "想吃的沒有，只好回宿舍泡麵。",
+      "sold_out": "又賣完了，學生的命就是苦。",
+      "too_expensive": "太貴了啦，學生吃不起。"
+    }
+  },
+  {
+    "name": "韭菜控阿伯",
+    "intro": "每天都來報到的退休阿伯",
+    "budget": 90,
+    "wants": [
+      "韭菜鍋貼",
+      "酸辣湯"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 6,
+    "lines": {
+      "bought": "就是這個韭菜香，讚啦！",
+      "hated_on_menu": "這味道阿伯不愛，先走了。",
+      "not_on_menu": "沒有韭菜的？那不用了。",
+      "sold_out": "韭菜的賣完了喔？明天再來。",
+      "too_expensive": "以前一顆才多少錢，貴啦。"
+    }
+  },
+  {
+    "name": "怕韭菜的 OL",
+    "intro": "對韭菜味很敏感的上班族",
+    "budget": 120,
+    "wants": [
+      "玉米鍋貼",
+      "紅茶"
+    ],
+    "hates": "韭菜鍋貼",
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 6,
+    "lines": {
+      "bought": "玉米的好清爽，下次再來。",
+      "hated_on_menu": "一進門就是韭菜味，不了。",
+      "not_on_menu": "沒有玉米鍋貼？好可惜。",
+      "sold_out": "玉米的賣完了，真不巧。",
+      "too_expensive": "價格有點超出預算了。"
+    }
+  },
+  {
+    "name": "吃素學妹",
+    "intro": "做完報告才想起要吃飯",
+    "budget": 90,
+    "wants": [
+      "玉米鍋貼",
+      "豆漿"
+    ],
+    "hates": null,
+    "days": [
+      2,
+      4,
+      5
+    ],
+    "count": 5,
+    "lines": {
+      "bought": "有素的可以吃，太好了。",
+      "hated_on_menu": "這個我不能吃，抱歉。",
+      "not_on_menu": "沒有素的嗎？那我只能看了。",
+      "sold_out": "素的賣完了，我應該早點來。",
+      "too_expensive": "預算超支了，下次吧。"
+    }
+  },
+  {
+    "name": "躲雨外送員",
+    "intro": "淋了一身雨的外送員",
+    "budget": 50,
+    "wants": [
+      "酸辣湯"
+    ],
+    "hates": null,
+    "days": [
+      2
+    ],
+    "count": 12,
+    "lines": {
+      "bought": "熱湯下肚，又可以衝了。",
+      "hated_on_menu": "這個我不行，先走了。",
+      "not_on_menu": "沒有熱湯？那我去下一間。",
+      "sold_out": "湯賣完了啊，好冷。",
+      "too_expensive": "跑一單才賺多少，太貴了。"
+    }
+  },
+  {
+    "name": "排球隊",
+    "intro": "剛練完球、餓到不行的校隊",
+    "budget": 100,
+    "wants": [
+      "招牌鍋貼",
+      "豆漿"
+    ],
+    "hates": null,
+    "days": [
+      3
+    ],
+    "count": 12,
+    "lines": {
+      "bought": "補充體力完成！",
+      "hated_on_menu": "教練說這個不能吃。",
+      "not_on_menu": "沒有招牌鍋貼？隊長會生氣。",
+      "sold_out": "賣完了？我們明明有訂！",
+      "too_expensive": "隊費不夠付這個價格啦。"
+    }
+  },
+  {
+    "name": "發薪日工程師",
+    "intro": "今天領薪水的工程師",
+    "budget": 150,
+    "wants": [
+      "玉米鍋貼",
+      "酸辣湯"
+    ],
+    "hates": null,
+    "days": [
+      5
+    ],
+    "count": 8,
+    "lines": {
+      "bought": "發薪日就是要吃好一點。",
+      "hated_on_menu": "這個不合我口味，掰。",
+      "not_on_menu": "想吃的沒上架，可惜了。",
+      "sold_out": "賣完了？我錢都準備好了。",
+      "too_expensive": "就算發薪日也太貴了吧。"
+    }
+  }
+]

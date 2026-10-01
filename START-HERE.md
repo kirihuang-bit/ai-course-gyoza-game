@@ -1,51 +1,10 @@
-# START HERE ｜ M11 · AI 驅動開發與平台整合實作課
+# START HERE ｜ GYOZA WOOD 鍋貼店經營遊戲
 
-這份資料夾就是你四堂課的練習材料。整門課只做一個作品：
+你接手了一家鍋貼店遊戲。它**開局就能玩，但玩起來怪怪的**。
 
-> **GYOZA WOOD 餃木鍋貼備料控制台**<br>
-> 從接手 repo、Git 工作流、AI coding agent 規劃與驗收，到備料控制台、訂單可視化、LINE OA Flex、MCP/skills 與技術 blog。
+你的任務不是學做遊戲，而是學會用 AI 把它修好、幫你測試它、最後替你經營它。
 
-## 你現在在哪條流水線
-
-```text
-接手 repo → Git / branch / commit → AGENTS.md / CLAUDE.md
-      → Plan Mode → 備料控制台改功能 → 訂單可視化
-      → API / LINE Flex mock → ops agent → MCP 驗收 → Astro 技術紀錄
-```
-
-| 堂 | 你會推進到哪裡 | 打開哪個資料夾 |
-|---|---|---|
-| U0 | 看懂這包東西的檔案結構、工程師的命名慣例，先有地圖再動手（約 30 分鐘） | [`U0/`](./U0/) |
-| U1 | 從 zip 建本機 repo，專案跑起來，看懂 VS Code / Git / Codex / Claude Code，並推上 GitHub | [`U1/`](./U1/) |
-| U2 | 用 AGENTS.md、CLAUDE.md、Plan Mode 管住 AI，完成備料控制台小範圍修改 | [`U2/`](./U2/) |
-| U3 | 看懂訂單資料如何驅動畫面，並用 LINE OA Flex 完成 mock 推播 | [`U3/`](./U3/) |
-| U4 | ops agent、GitHub Actions、MCP/skills，最後整理成 Astro 技術紀錄 | [`U4/`](./U4/) |
-
-這門課預設你拿到的是 zip，不是 `git clone`。第一次上課不要從整包亂找檔案。請先打開：
-
-```text
-U0/README.md
-```
-
-U0 只有三步、約 30 分鐘，會教你怎麼看懂這包裡的資料夾與副檔名——**先有地圖，再開始動手**。
-走完 U0 再打開 `U1/README.md`，第一步會把 zip 變成自己的本機 Git repo。
-
-每個資料夾都有：`README.md` 或 `STEP-*.md`、`PROMPT-CARD.md`、`ACCEPTANCE.md`、`PITFALL.md`。
-
-## 完成的定義（DoD）
-
-> **AI 做出來不算完成。**
-> **通過驗收才算完成。**
-> **驗收包含：畫面 / 輸出 / diff / build / human review。**
-
-## 一鍵啟動
-
-- **Windows**：雙擊 [`start-m11.bat`](./start-m11.bat)
-- **macOS**：雙擊 [`start-m11.command`](./start-m11.command)
-
-第一次會自動安裝套件，然後打開 <http://localhost:5180>。
-
-如果你是在 VS Code 裡操作，也可以用 Terminal 跑：
+## 第一步：讓遊戲跑起來
 
 ```bash
 cd web-lab
@@ -53,27 +12,37 @@ npm install
 npm run dev
 ```
 
-看到終端機出現 `Local: http://localhost:5180/`，就用瀏覽器打開那個網址。若 port 不是 5180，以終端機顯示為準。
+看到 `Local: http://localhost:5180/`，用瀏覽器打開，點上方的「開店」。
 
-你應該看到四個頁面：
+## 第二步：玩一次
 
-1. **品牌入口**：GYOZA WOOD 首頁。
-2. **備料控制台**：C2 會修改的後台管理系統。
-3. **訂單可視化**：C3 會用來理解 component、CSS、資料狀態與 three.js 動畫。
-4. **LINE 推播中心**：C3 會走完載入、檢查、Flex 預覽、人工審核、mock 推播。
+1. 讀 [`docs/RULES.md`](./docs/RULES.md)（規則書）
+2. 從第 1 天玩到第 5 天結算
+3. 一邊玩一邊想：**有哪些地方跟規則書寫的不一樣？**
 
-U4 還會使用 [`blog-lab/`](./blog-lab/)：把前面的備料控制台、API 邊界、MCP 驗收與截圖整理成 Astro 技術紀錄，最後部署到 GitHub Pages。
+> 遊戲的表現和規則書不一樣時，以規則書為準。
 
-Blog 等價指令：
+## 第三步：自動驗收
 
 ```bash
-cd blog-lab
-npm install
-npm run dev
+cd web-lab
+npm run check
 ```
+
+它會用固定的案例檢查每一條規則，告訴你哪些已經照規則書運作、哪些還沒有。
+
+## 接下來
+
+各關的講義會陸續放進這個資料夾。在那之前，先熟悉三件事：
+
+| 你會用到的 | 在哪裡 |
+|---|---|
+| 給 AI 的工作守則 | `AGENTS.md` |
+| Skill（寫給 AI 的 SOP） | `.claude/skills/` |
+| Agent（交給 AI 的整份工作） | `.claude/agents/` |
 
 ## 安全三句
 
-1. token 只放 `line-lab/.env`，不進程式碼、不進前端、不 commit。
-2. 預設都是 mock；真送 LINE 需要 `LINE_REAL_SEND=1` 和人工確認。
-3. AI 改完不要急著高興：先看畫面、看輸出、看 diff、跑 build，人審過了才算數。
+1. 遊戲不會存檔，重新整理就回到第 1 天，這是設計好的
+2. AI 只能改 `AGENTS.md` 允許的檔案；它想改別的，先停下來想一想
+3. AI 說做完了不算：看畫面、跑 `npm run check`、看 `git diff`，你確認過才算

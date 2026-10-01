@@ -1,13 +1,9 @@
 {
-  "//": "專案層 MCP 設定。用 Claude Code 打開這個資料夾就會問你是否啟用；啟用後打 /mcp 應看到這兩台。第三台 codebase-memory-mcp 用官方安裝腳本裝（會自動幫 Claude Code 設定，不用寫在這裡）：https://github.com/DeusData/codebase-memory-mcp",
+  "//": "專案層 MCP 設定。用 Claude Code 打開這個資料夾時會問你是否啟用；啟用後輸入 /mcp 應該看到 chrome-devtools。它讓 AI 能自己打開 http://localhost:5180、操作遊戲、讀 console、截圖。",
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
       "args": ["chrome-devtools-mcp@latest"]
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
     }
   }
 }

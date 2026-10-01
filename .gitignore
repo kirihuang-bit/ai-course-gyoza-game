@@ -1,15 +1,11 @@
 node_modules/
 dist/
-__pycache__/
-*.pyc
 .DS_Store
 .env
 .codex
-.claude
 
-# AI coding agent 的 skill 安裝產物，不是教材內容
-.agents/
-skills-lock.json
+# Claude Code 的個人設定不進 Git；專案的 skills 與 agents 要進 Git
+.claude/settings.local.json
 
-# 根目錄沒有 package.json，這個 lock 檔是 skill 安裝的副產物
+# 根目錄沒有 package.json，這裡出現的 lock 檔是工具副產物
 /package-lock.json

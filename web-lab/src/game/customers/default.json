@@ -1,0 +1,75 @@
+[
+  {
+    "name": "路人甲",
+    "intro": "路過的客人",
+    "budget": 100,
+    "wants": [
+      "招牌鍋貼"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 10,
+    "lines": {
+      "bought": "……",
+      "hated_on_menu": "……",
+      "not_on_menu": "……",
+      "sold_out": "……",
+      "too_expensive": "……"
+    }
+  },
+  {
+    "name": "路人乙",
+    "intro": "路過的客人",
+    "budget": 80,
+    "wants": [
+      "韭菜鍋貼",
+      "紅茶"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 10,
+    "lines": {
+      "bought": "……",
+      "hated_on_menu": "……",
+      "not_on_menu": "……",
+      "sold_out": "……",
+      "too_expensive": "……"
+    }
+  },
+  {
+    "name": "路人丙",
+    "intro": "路過的客人",
+    "budget": 60,
+    "wants": [
+      "豆漿"
+    ],
+    "hates": null,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "count": 10,
+    "lines": {
+      "bought": "……",
+      "hated_on_menu": "……",
+      "not_on_menu": "……",
+      "sold_out": "……",
+      "too_expensive": "……"
+    }
+  }
+]

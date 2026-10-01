@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { brand, courseModules, stats, workflow, tabs, checkpoints } from './data.js';
 import { Aurora, GradientText } from './uiEffects.jsx';
 import { GyozaPan, StageIcon } from './artwork.jsx';
-import ShopConsole from './ShopConsole.jsx';
-import OrderBoard from './OrderBoard.jsx';
-import Dashboard from './Dashboard.jsx';
+import GameShop from './game/GameShop.jsx';
 
-// 四堂課配四個製作階段:麵皮 → 包餡 → 煎製 → 出餐。
-// 對應課程主線(接手 → 開發 → 驗證 → 交付),也呼應訂單看板的四個站點。
+// 四個課程模組配四個製作階段:麵皮 → 包餡 → 煎製 → 出餐。
 const moduleStage = { C1: 'wrapper', C2: 'fill', C3: 'sear', C4: 'serve' };
 
 function ModuleCard({ code, title, desc, output }) {
@@ -41,7 +38,7 @@ function HomePage() {
           <GyozaPan />
         )}
         <div className="site-hero-inner">
-          <p className="eyebrow solid">AI Project Foundation Kit</p>
+          <p className="eyebrow solid">AI Coding Game Kit</p>
           <p className="brand-kicker">{brand.badge}</p>
           <h1>
             <GradientText colors={['#f97316', '#2dd4bf', '#facc15', '#f97316']} speed={7}>
@@ -68,7 +65,7 @@ function HomePage() {
           <p>{brand.description}</p>
         </section>
 
-        <section className="module-grid" id="course-map" aria-label="四堂課主線">
+        <section className="module-grid" id="course-map" aria-label="課程主線">
           {courseModules.map((module) => (
             <ModuleCard key={module.code} {...module} />
           ))}
@@ -77,7 +74,7 @@ function HomePage() {
         <section className="flow-band">
           <div>
             <p className="eyebrow solid">delivery loop</p>
-            <h2>這門課只練一條可交付流程</h2>
+            <h2>每一次讓 AI 動手，都走同一條流程</h2>
           </div>
           <div className="flow-steps">
             {workflow.map((step, index) => (
@@ -110,7 +107,7 @@ function HomePage() {
 
         <section className="acceptance-band">
           <p className="eyebrow solid">acceptance</p>
-          <h2>學生不是交一張漂亮圖，而是交可驗證證據</h2>
+          <h2>AI 說做完了不算，證據過關才算</h2>
           <ul>
             {checkpoints.map((item) => (
               <li key={item}>{item}</li>
@@ -123,10 +120,8 @@ function HomePage() {
 }
 
 const views = {
-  home: { label: '品牌入口', component: <HomePage /> },
-  admin: { label: '備料控制台', component: <ShopConsole /> },
-  orders: { label: '訂單看板', component: <OrderBoard /> },
-  line: { label: 'LINE 推播中心', component: <Dashboard /> },
+  home: { label: '首頁', component: <HomePage /> },
+  shop: { label: '開店', component: <GameShop /> },
 };
 
 export default function App() {

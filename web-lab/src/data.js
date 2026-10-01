@@ -3,94 +3,81 @@
 
 export const brand = {
   name: 'GYOZA WOOD',
-  badge: 'CAMPUS GYOZA OPS',
-  tagline: '把訂單、備料、LINE 通知與交付驗收收進同一個鍋貼店控制台。',
+  badge: 'GYOZA SHOP GAME',
+  tagline: '接手一家鍋貼店遊戲，用 AI 補完它，再做出自己的 Skill、MCP 與 AI Agent。',
   description:
-    '這不是一個展示型小網頁，而是一個會一路延伸到備料台、API、LINE OA、MCP 與個人技術紀錄的企業程式開發練習包。學生在同一個 repo 裡學會接手、規劃、修改、驗證與說明。',
-  cta: '查看四堂課主線',
+    '這是一個做到一半的鍋貼店經營遊戲：開局就能玩，但到處都怪怪的。你的任務不是學做遊戲，而是學會讓 AI 照你的規則修好它、幫你測試它，最後替你經營它。',
+  cta: '看看課程主線',
   // 首頁主圖。把你的鍋貼照片放進 web-lab/public/images/，再把路徑填在這裡，
   // 例如 '/images/my-gyoza.jpg'。留空字串就顯示預設插畫——不填也不會壞。
-  // 路徑要以 / 開頭，檔名建議用英文小寫。詳見 U1/STEP-02.md。
+  // 路徑要以 / 開頭，檔名建議用英文小寫。
   heroImage: '',
 };
 
 export const courseModules = [
   {
     code: 'C1',
-    title: '接手專案與 Git 工作流',
-    desc: 'VS Code、Git、Gitflow、Claude Code、Codex。學生從老師給的 repo 開始，學會讀專案、跑起來、看 diff、做 commit。',
-    output: '可運作 repo + 第一次安全修改',
+    title: '接手專案',
+    desc: '用 VS Code 打開專案、讓它跑起來、看懂檔案結構，用 Git 為每一次修改留下存檔點。',
+    output: '跑得起來的遊戲 + 第一筆 commit',
   },
   {
     code: 'C2',
-    title: '備料控制台與 agent 守則',
-    desc: 'AGENTS.md、CLAUDE.md、Plan Mode、規劃 -> 開發 -> 驗證。用小範圍挖洞任務補強備料控制台。',
-    output: '控制台功能變更 + reviewer 驗收',
+    title: 'Skill：把規則交給 AI',
+    desc: '把「客人該長什麼樣子」「怎麼測試遊戲」寫成 Skill，讓 AI 每次都照同一套規矩做事。',
+    output: '自己的客人包 + 遊戲驗證 Skill',
   },
   {
     code: 'C3',
-    title: '訂單看板與 LINE OA',
-    desc: '理解 components、CSS、src、API、webhook、token 與前後端邊界。用推播中心產 Flex Message 並 mock/真送。',
-    output: '訂單狀態畫面 + Flex payload',
+    title: 'MCP：讓 AI 看得到遊戲',
+    desc: '幫 AI 接上瀏覽器，讓它自己打開遊戲、輸入數字、按按鈕、讀結果，而不是只能猜。',
+    output: 'AI 實際操作遊戲的紀錄',
   },
   {
     code: 'C4',
-    title: 'MCP / Skills / 技術紀錄',
-    desc: 'Context7 查文件、Chrome DevTools 驗收、Codebase Memory 讀專案，最後整理成 Astro 個人 blog 與成果說明。',
-    output: 'MCP 驗收截圖 + 技術 blog',
+    title: 'Agent：交給 AI 一份工作',
+    desc: '把 Skill 和 MCP 組成一個測試員 Agent，讓它照案例測試、回報可以重現的證據。',
+    output: '測試員 Agent + 驗收報告',
   },
 ];
 
 export const stats = [
-  { value: '16h', label: '四堂實作' },
-  { value: '1 repo', label: '同一條主線' },
-  { value: '4 outputs', label: '每堂可驗收' },
+  { value: '5 天', label: '一場經營' },
+  { value: '6 道菜', label: '每天上架 4 道' },
+  { value: '2,000 元', label: '開店資金' },
 ];
 
-export const workflow = [
-  '讀專案',
-  '開分支',
-  '寫計畫',
-  '小範圍改',
-  '跑驗證',
-  '看 diff',
-  '人審',
-  'commit',
-];
+export const workflow = ['玩一次', '找出怪的地方', '對照規則書', '寫給 AI 的規則', '讓 AI 動手', '跑驗收', '看 diff', 'commit'];
 
 export const tabs = [
   {
-    id: 'system',
-    label: '系統感',
-    title: '畫面要像真的鍋貼店品牌後台，不像 AI 隨手拼的範本',
-    body:
-      '首頁用鍋貼店品牌情境建立代入感，控制台用真實營運欄位呈現品項、訂單、備料區水位、風險金額與下一步。所有畫面都要能對應到資料與驗收，不用空泛口號填版面。',
+    id: 'rulebook',
+    label: '規則書',
+    title: '規則書說了算，遊戲說了不算',
+    body: '遊戲的表現和規則書不一樣，就是遊戲有 bug。先玩、再對照規則書，你就知道要叫 AI 修什麼。',
+  },
+  {
+    id: 'skill',
+    label: 'Skill',
+    title: 'Skill 是寫給 AI 的工作守則',
+    body: 'AI 不知道你的規矩。把規則、步驟、檢查方式寫成 Skill，它每次都會照做，你也不用每次重講。',
+  },
+  {
+    id: 'mcp',
+    label: 'MCP',
+    title: 'MCP 是幫 AI 多裝一隻手',
+    body: '原本 AI 只能讀檔案。接上瀏覽器 MCP 之後，它能自己打開遊戲、操作、截圖，用證據回報。',
   },
   {
     id: 'agent',
-    label: 'AI 分工',
-    title: 'AI coding agent 被流程管理，而不是自由發揮',
-    body:
-      'AGENTS.md、CLAUDE.md、Plan Mode、allowed files、reviewer prompt 都是課程核心。學生要學會讓 AI 先讀、先規劃、再改，最後用 build、diff、畫面與人審收斂。',
-  },
-  {
-    id: 'platform',
-    label: '平台整合',
-    title: 'API 與 token 邊界要講清楚，不能只做漂亮 demo',
-    body:
-      'C3 的推播按鈕只打本機後端，token 留在 line-lab/.env；LINE Flex 先 mock、再人工審核。這讓學生看得懂前端、後端、payload 與平台安全邊界。',
-  },
-  {
-    id: 'portfolio',
-    label: '技術表達',
-    title: '最後要能說明自己怎麼拆題、怎麼驗證、怎麼交付',
-    body:
-      'C4 用 MCP/skills 做小型應用，再把鍋貼店控制台、驗收截圖、技術筆記與踩坑整理成 Astro blog。重點不是炫技，而是讓媒合企業看得出學生有思考過。',
+    label: 'Agent',
+    title: 'Agent 是交代一整份工作的 AI 夥伴',
+    body: '給它職責、可用的工具、禁止事項和回報格式，它就能獨立完成一件事，例如把整份測試案例跑完。',
   },
 ];
 
 export const checkpoints = [
-  '首頁、備料控制台、訂單看板、LINE 推播中心都能在同一個 repo 打開',
-  '每堂課都有畫面、輸出、diff、build 或 reviewer 的明確驗收',
-  'token 不進前端；真送與自動化都保留人工審核與 mock 保底',
+  '遊戲從第 1 天玩到第 5 天結算，畫面沒有壞掉',
+  'npm run check 的結果比修改前更好，而且沒有變壞的項目',
+  'git diff 只動到這一關允許修改的檔案',
 ];
