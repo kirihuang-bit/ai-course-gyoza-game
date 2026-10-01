@@ -13,13 +13,15 @@ import { wasteFee as calcWasteFee, dailyProfit } from './rules/money.js';
 import { updateStars } from './rules/reputation.js';
 import { checkTask } from './rules/tasks.js';
 import { pickLine } from './rules/speech.js';
+import { checkIngredient, reorderAmount } from './rules/inventory.js';
+import { INGREDIENTS, STOCK_STATUS, startWarehouse } from './ingredients.js';
 
 // 開新的一場。mode = 'normal'（正式）或 'jump'（跳關練習，不列入排行榜）
 export function newGame({ mode = 'normal', startDay = 1 } = {}) {
   if (mode === 'jump') {
-    return { mode, day: startDay, cash: JUMP_START.cash, stars: JUMP_START.stars, history: [] };
+    return { mode, day: startDay, cash: JUMP_START.cash, stars: JUMP_START.stars, warehouse: startWarehouse(), history: [] };
   }
-  return { mode: 'normal', day: 1, cash: START_CASH, stars: START_STARS, history: [] };
+  return { mode: 'normal', day: 1, cash: START_CASH, stars: START_STARS, warehouse: startWarehouse(), history: [] };
 }
 
 export function isFinished(state) {
@@ -54,6 +56,35 @@ export function buildQueue(arrivals) {
 // 安全措施：規則檔回傳奇怪的值時，畫面也不能壞掉
 function safeNumber(value, fallback) {
   return Number.isFinite(value) ? value : fallback;
+}
+
+// 倉庫盤點：備料時扣原料，倉庫不夠就臨時加購；打烊後判斷狀態；晚上供應商送貨。
+// 盤點只是報表，不影響現金、星等和分數（原料的錢已經算在菜的成本裡）。
+function takeInventory(warehouseBefore, plan) {
+  const rows = [];
+  const nextWarehouse = {};
+  for (const ing of INGREDIENTS) {
+    const before = warehouseBefore?.[ing.sku] ?? ing.start;
+    const used = plan.items.filter((item) => ing.dishes.includes(item.id)).reduce((sum, item) => sum + item.qty, 0);
+    const rushBuy = Math.max(0, used - before);
+    const left = Math.max(0, before - used);
+    const status = checkIngredient({ stock: left, safety: ing.safety, rushBuy });
+    const reorder = safeNumber(reorderAmount({ stock: left, safety: ing.safety }), 0);
+    rows.push({
+      sku: ing.sku,
+      name: ing.name,
+      before,
+      used,
+      rushBuy,
+      left,
+      safety: ing.safety,
+      status: STOCK_STATUS.includes(status) ? status : 'ok',
+      reorder,
+      delivery: ing.delivery,
+    });
+    nextWarehouse[ing.sku] = left + ing.delivery;
+  }
+  return { rows, nextWarehouse };
 }
 
 // 跑完一天。回傳 { state: 隔天的狀態, report: 今天的結果 }
@@ -193,11 +224,16 @@ export function simulateDay(state, plan, pack) {
   report.task = { ...dayData.task, status: taskStatus, bonusPaid: bonus };
   report.endCash = startCash + profit + bonus;
 
+  // 打烊盤點（只是報表）
+  const inventory = takeInventory(state.warehouse, plan);
+  report.inventory = inventory.rows;
+
   const nextState = {
     ...state,
     day: day + 1,
     cash: report.endCash,
     stars: starsAfter,
+    warehouse: inventory.nextWarehouse,
     history: [...state.history, report],
   };
   return { state: nextState, report };

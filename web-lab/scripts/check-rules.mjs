@@ -19,6 +19,7 @@ const { wasteFee, dailyProfit } = await load('rules/money.js');
 const { updateStars } = await load('rules/reputation.js');
 const { checkTask } = await load('rules/tasks.js');
 const { pickLine } = await load('rules/speech.js');
+const { checkIngredient, reorderAmount } = await load('rules/inventory.js');
 const { DAYS_DATA } = await load('days.js');
 
 const defaultPack = readJson('customers/default.json');
@@ -112,6 +113,12 @@ section('引擎', '老師檔，開課時就該全部 PASS');
   check('討厭的菜有上架：客人不進門', [hater.entered, hater.outcome], [false, 'hated_on_menu']);
   const nobody = simulateDay(newGame(), plan([{ id: 'tea', qty: 1, price: 25 }]), [customer({ days: [2] })]).report;
   check('沒有客人的日子：畫面也能正常結束', nobody.visits.length, 0);
+  const g1 = simulateDay(newGame(), plan([{ id: 'signature', qty: 20, price: 70 }]), defaultPack);
+  const skin = g1.report.inventory.find((r) => r.sku === 'M001');
+  check('倉庫：備 20 份招牌 → 麵皮 60 剩 40，今晚進貨 35，明早 75', [skin.left, g1.state.warehouse.M001], [40, 75]);
+  const g2 = simulateDay(newGame(), plan([{ id: 'chive', qty: 25, price: 70 }]), defaultPack).report;
+  const chive = g2.inventory.find((r) => r.sku === 'M004');
+  check('倉庫：備 25 份韭菜鍋貼 → 韭菜 15 不夠，臨時加購 10、剩 0', [chive.rushBuy, chive.left], [10, 0]);
 }
 
 // ─────────────────────────────────────────────
@@ -266,6 +273,27 @@ section('說話規則', 'rules/speech.js');
   for (const outcome of ['bought', 'hated_on_menu', 'not_on_menu', 'sold_out', 'too_expensive']) {
     check(`${outcome} → 說「${c.lines[outcome]}」`, safe(() => pickLine(c, outcome)), c.lines[outcome]);
   }
+}
+
+// ─────────────────────────────────────────────
+section('倉庫盤點規則', 'rules/inventory.js');
+{
+  const cases = [
+    ['剩 40、安全量 30 → 正常', { stock: 40, safety: 30, rushBuy: 0 }, 'ok'],
+    ['剩 30、安全量 30（剛好等於）→ 需要補貨', { stock: 30, safety: 30, rushBuy: 0 }, 'low'],
+    ['剩 3、安全量 5 → 需要補貨', { stock: 3, safety: 5, rushBuy: 0 }, 'low'],
+    ['剩 0 → 缺貨', { stock: 0, safety: 5, rushBuy: 0 }, 'out'],
+    ['剩 0、今天臨時加購 5 份 → 缺貨', { stock: 0, safety: 5, rushBuy: 5 }, 'out'],
+  ];
+  for (const [label, input, expected] of cases) {
+    check(label, safe(() => checkIngredient(input)), expected);
+  }
+  check('剩 12、安全量 30 → 建議叫 48（補到 60）', safe(() => reorderAmount({ stock: 12, safety: 30 })), 48);
+  check('剩 0、安全量 5 → 建議叫 10', safe(() => reorderAmount({ stock: 0, safety: 5 })), 10);
+  check('剩 80、安全量 30 → 不用叫，建議 0（不是負數）', safe(() => reorderAmount({ stock: 80, safety: 30 })), 0);
+  const day = simulateDay(newGame(), plan([{ id: 'chive', qty: 25, price: 70 }]), defaultPack).report;
+  const row = day.inventory.find((r) => r.sku === 'M004');
+  check('整天跑一次：韭菜備 25 份 → 打烊報表顯示「缺貨」、建議叫 8', [row.status, row.reorder], ['out', 8]);
 }
 
 // ─────────────────────────────────────────────
