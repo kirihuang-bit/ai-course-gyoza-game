@@ -7,5 +7,5 @@
 //   outcome   'bought' | 'hated_on_menu' | 'not_on_menu' | 'sold_out' | 'too_expensive'
 // 回傳：要顯示在泡泡裡的那句話；不說話就回傳 null
 export function pickLine(customer, outcome) {
-  return null;
+  return customer.lines?.[outcome] ?? null;
 }
