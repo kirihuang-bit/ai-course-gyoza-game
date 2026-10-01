@@ -36,7 +36,7 @@ E. 下一步建議：
 
 ## 絕對不准
 
-- 改 `config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`scripts/check-rules.mjs`
+- 改 `config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`scripts/check-rules.mjs`、`scripts/simulate.mjs`
 - 為了讓測試通過而修改測試、或把答案寫死
 - 新增套件、修改 `package.json`
 - 加任何存檔功能（localStorage 等）

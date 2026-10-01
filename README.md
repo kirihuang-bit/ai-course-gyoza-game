@@ -13,6 +13,7 @@ cd web-lab
 npm install
 npm run dev      # 打開 http://localhost:5180
 npm run check    # 自動驗收：看看哪些規則已經照規則書運作
+npm run simulate -- plans/example-even.json   # 試算：一次算完五天的結果
 ```
 
 Windows 也可以雙擊 `start-m11.bat`，macOS 雙擊 `start-m11.command`。
@@ -33,7 +34,8 @@ ai-course-gyoza-game/
   web-lab/             遊戲本體（React + Vite）
     src/game/rules/    ← 遊戲規則，一個檔一條規則
     src/game/customers/← 客人包
-    scripts/           自動驗收腳本
+    scripts/           自動驗收（check）與試算工具（simulate）
+    plans/             AI 店長的經營策略檔
 ```
 
 ## 需要的工具
