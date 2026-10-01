@@ -15,6 +15,9 @@ export function tryBuy({ onMenu, stockLeft, price, budgetLeft }) {
   if (!onMenu) {
     return { ok: false, reason: 'not_on_menu' };
   }
+  if (stockLeft <= 0) {
+    return { ok: false, reason: 'sold_out' };
+  }
   if (price > budgetLeft) {
     return { ok: false, reason: 'too_expensive' };
   }
