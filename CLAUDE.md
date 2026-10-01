@@ -26,6 +26,7 @@
 | `pricing-rules` | 決定每樣菜的定價（AI 店長用） |
 | `result-review` | 讀試算結果、提出下一版策略（AI 店長用） |
 | `demand-estimate` | （選做）估計每樣菜要備幾份（AI 店長用） |
+| `reorder-check` | 讀試算結果的倉庫盤點，列出補貨清單 |
 | `write-spec` | 只有一句話的需求，先寫成規格書 |
 | `new-events` | （延伸）設計新的營業事件草案 |
 

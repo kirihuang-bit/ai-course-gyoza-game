@@ -130,6 +130,15 @@ function run(file) {
       notOnMenu: r.visits.filter((v) => v.outcome === 'not_on_menu').length,
       hatedOnMenu: r.visits.filter((v) => v.outcome === 'hated_on_menu').length,
       sold: r.sold,
+      inventory: r.inventory.map((i) => ({
+        sku: i.sku,
+        name: i.name,
+        left: i.left,
+        rushBuy: i.rushBuy,
+        safety: i.safety,
+        status: i.status,
+        reorder: i.reorder,
+      })),
     })),
   };
 }
@@ -154,6 +163,12 @@ function printResult(r) {
     if (d.notOnMenu) lost.push(`想吃的沒上架 ${d.notOnMenu}`);
     if (d.hatedOnMenu) lost.push(`因為討厭的菜不進門 ${d.hatedOnMenu}`);
     if (lost.length) console.log(`       沒買到的客人：${lost.join('、')}`);
+    const out = d.inventory.filter((i) => i.status === 'out');
+    const low = d.inventory.filter((i) => i.status === 'low');
+    const stock = [];
+    if (out.length) stock.push(`缺貨 ${out.map((i) => `${i.name}（剩 ${i.left}、臨時加購 ${i.rushBuy}、建議叫 ${i.reorder}）`).join('、')}`);
+    if (low.length) stock.push(`需要補貨 ${low.map((i) => `${i.name}（剩 ${i.left}、建議叫 ${i.reorder}）`).join('、')}`);
+    if (stock.length) console.log(`       倉庫盤點：${stock.join('；')}`);
   }
   console.log(`  ➜ 最終資金 ${formatMoney(r.finalCash)} 元・星等 ${r.finalStars}・總報廢 ${r.totalWaste} 份・任務 ${r.tasksDone}／${DAYS}`);
 }
