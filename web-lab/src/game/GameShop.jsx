@@ -24,6 +24,52 @@ const OUTCOME_LABEL = {
 
 const TASK_LABEL = { done: '達成', failed: '未達成', wip: '施工中' };
 
+const STOCK_LABEL = { ok: '正常', low: '需要補貨', out: '缺貨' };
+
+function Inventory({ rows }) {
+  if (!rows) return null;
+  return (
+    <div className="gs-inventory" data-testid="inventory">
+      <h4>倉庫盤點</h4>
+      <p className="gs-inventory-note">只是報表，不影響現金和分數。今晚供應商會送來固定進貨，明早庫存＝打烊剩餘＋固定進貨。</p>
+      <div className="gs-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>代號</th>
+              <th>原料</th>
+              <th>早上庫存</th>
+              <th>備料用掉</th>
+              <th>臨時加購</th>
+              <th>打烊剩餘</th>
+              <th>安全量</th>
+              <th>狀態</th>
+              <th>建議追加叫貨</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.sku} className={`gs-stock-${row.status}`} data-testid={`inventory-${row.sku}`}>
+                <td>{row.sku}</td>
+                <td>{row.name}</td>
+                <td>{row.before}</td>
+                <td>{row.used}</td>
+                <td data-testid={`inventory-${row.sku}-rush`}>{row.rushBuy}</td>
+                <td data-testid={`inventory-${row.sku}-left`}>{row.left}</td>
+                <td>{row.safety}</td>
+                <td data-testid={`inventory-${row.sku}-status`}>
+                  <span className="gs-stock-tag">{STOCK_LABEL[row.status] ?? row.status}</span>
+                </td>
+                <td data-testid={`inventory-${row.sku}-reorder`}>{row.reorder}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function emptyDraft() {
   const draft = {};
   for (const dish of MENU) draft[dish.id] = { on: false, qty: 10, price: dish.refPrice };
@@ -320,6 +366,7 @@ function Report({ report, onNext, isLast }) {
           </dd>
         </div>
       </dl>
+      <Inventory rows={report.inventory} />
       <button type="button" className="gs-primary" data-testid="next-day" onClick={onNext}>
         {isLast ? '看結算' : '進入下一天'}
       </button>
