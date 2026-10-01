@@ -1,4 +1,4 @@
-# GAME-SPEC ｜ GYOZA WOOD 經營遊戲 開發規格書 v0.2
+# GAME-SPEC ｜ GYOZA WOOD 經營遊戲 開發規格書 v0.3
 
 > **教師用文件，只放在 `solution` 分支。** 本檔寫出每個洞的掉漆樣子與答案，不可放進學生拿到的 `main`。
 
@@ -456,3 +456,17 @@ restart  jump-select  jump-start  upgrade-shop
 5. 用瀏覽器實際操作 `main` 和 `solution` 各一輪，截圖確認掉漆版與完成版的差異
 6. 用官方客人包重跑平衡測試，數字與老師版規則書一致（不一致就更新規則書）
 7. 舊 repo 沒有任何改動
+
+---
+
+## 12. v0.3 新增：AI 店長
+
+| 項目 | 內容 |
+|---|---|
+| 試算工具 | `web-lab/scripts/simulate.mjs`，`npm run simulate -- <策略檔或資料夾> [--json]`。讀 `web-lab/plans/*.json`，呼叫 `engine.js` 一次算完五天；每天先跑 `validatePlan`，不合法就停在那一天並說明原因。只讀不寫。結果與畫面一致（已用同一組策略比對：畫面與試算都是 6,544 元） |
+| 策略檔格式 | `{ "name": "...", "pack": "official" \| "default" \| "mine", "days": [ { "items": [ { "name": "招牌鍋貼" 或 "id": "signature", "qty": 20, "price": 70 } ], "promoCost": 0 }, …共 5 天 ] }` |
+| 範例 | `plans/example-even.json`（四樣各 10 份、原價、不宣傳；完成版 3,806 元）。`solution` 分支另有 `plans/teacher-best.json`（12,809 元） |
+| Skill 模板 | `pricing-rules`（定價心法，必做）、`result-review`（結果檢討，必做）、`demand-estimate`（需求估算，選做） |
+| Agent 模板 | `ai-manager` 改為挖空模板，工作循環：估需求 → 定價 → 試算 → 檢討 → 存下一版 → 再試算 → 瀏覽器驗證 |
+| 允許修改 | `web-lab/plans/*.json`、Skill／Agent 模板中標 ★ 的欄位；`simulate.mjs` 列為老師檔 |
+
