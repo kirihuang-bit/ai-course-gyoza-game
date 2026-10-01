@@ -22,13 +22,15 @@
 | `web-lab/src/game/rules/*.js` | 修正遊戲規則（一個檔一條規則） |
 | `web-lab/src/game/customers/my-customers.json` | 用 `new-customers` skill 產生自己的客人 |
 | `web-lab/src/data.js`、`web-lab/public/images/` | 改首頁店名、換首頁照片 |
+| `web-lab/plans/*.json` | AI 店長的經營策略檔（給試算工具用） |
+| `.claude/skills/`、`.claude/agents/` 裡標 ★ 的欄位 | 填 Skill 與 Agent 模板 |
 | `docs/specs/`、`docs/drafts/` | 寫規格書、草案 |
 
 **沒列到的檔案一律不可改**；真的需要改，先停下來說明理由，等人決定。
 
 ## 永遠禁止
 
-- 修改老師檔：`config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`web-lab/scripts/check-rules.mjs`
+- 修改老師檔：`config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`web-lab/scripts/check-rules.mjs`、`web-lab/scripts/simulate.mjs`
 - 為了讓 `npm run check` 通過而修改測試、或把答案寫死
 - 新增 npm 套件；修改 `package.json`、`package-lock.json`
 - 加任何存檔或連網功能（`localStorage`、`sessionStorage`、`indexedDB`、`fetch` 等）；遊戲必須每次打開都回到初始狀態

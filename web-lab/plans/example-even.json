@@ -1,0 +1,11 @@
+{
+  "name": "範例：四樣各 10 份、原價、不宣傳",
+  "pack": "official",
+  "days": [
+    { "items": [ { "name": "招牌鍋貼", "qty": 10, "price": 70 }, { "name": "韭菜鍋貼", "qty": 10, "price": 70 }, { "name": "玉米鍋貼", "qty": 10, "price": 80 }, { "name": "紅茶", "qty": 10, "price": 25 } ], "promoCost": 0 },
+    { "items": [ { "name": "招牌鍋貼", "qty": 10, "price": 70 }, { "name": "韭菜鍋貼", "qty": 10, "price": 70 }, { "name": "玉米鍋貼", "qty": 10, "price": 80 }, { "name": "紅茶", "qty": 10, "price": 25 } ], "promoCost": 0 },
+    { "items": [ { "name": "招牌鍋貼", "qty": 10, "price": 70 }, { "name": "韭菜鍋貼", "qty": 10, "price": 70 }, { "name": "玉米鍋貼", "qty": 10, "price": 80 }, { "name": "紅茶", "qty": 10, "price": 25 } ], "promoCost": 0 },
+    { "items": [ { "name": "招牌鍋貼", "qty": 10, "price": 70 }, { "name": "韭菜鍋貼", "qty": 10, "price": 70 }, { "name": "玉米鍋貼", "qty": 10, "price": 80 }, { "name": "紅茶", "qty": 10, "price": 25 } ], "promoCost": 0 },
+    { "items": [ { "name": "招牌鍋貼", "qty": 10, "price": 70 }, { "name": "韭菜鍋貼", "qty": 10, "price": 70 }, { "name": "玉米鍋貼", "qty": 10, "price": 80 }, { "name": "紅茶", "qty": 10, "price": 25 } ], "promoCost": 0 }
+  ]
+}
