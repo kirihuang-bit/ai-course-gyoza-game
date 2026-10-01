@@ -22,6 +22,7 @@ description: AI 店長。要讓 AI 自己規劃五天的經營策略、用試算
 - [ ] `pricing-rules` 定價心法 ── 負責：
 - [ ] `result-review` 結果檢討 ── 負責：
 - [ ] `demand-estimate` 需求估算（選做）── 負責：
+- [ ] `reorder-check` 補貨檢查 ── 負責：
 - [ ] 試算工具 `npm run simulate`（在 `web-lab` 資料夾執行）── 負責：
 - [ ] 瀏覽器 MCP `chrome-devtools` ── 負責：
 - [ ] `change-feature` 修改程式 ── 負責：
@@ -52,6 +53,7 @@ description: AI 店長。要讓 AI 自己規劃五天的經營策略、用試算
 最好的一版：檔名、最終資金、星等、報廢
 它跟我自己玩的最高分比：
 瀏覽器實際玩的結果是否和試算一樣：
+最好那一版的補貨清單：
 我（AI 店長）發現的經營規律：
 ```
 
