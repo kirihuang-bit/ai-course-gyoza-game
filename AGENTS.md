@@ -28,6 +28,8 @@
 
 **沒列到的檔案一律不可改**；真的需要改，先停下來說明理由，等人決定。
 
+**回家作業的例外**：在學生自己的作業分支（例如 `homework/upgrade-shop`）上，可以修改已確認的規格書（`docs/specs/*.md`）「要新增或修改的檔案」裡列出的檔案，包括老師檔。`web-lab/scripts/check-rules.mjs`、`web-lab/scripts/simulate.mjs` 仍然不可改，`npm run check` 原本的檢查必須全部通過。詳見 `docs/HOMEWORK.md`。
+
 ## 永遠禁止
 
 - 修改老師檔：`config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`InventoryPage.jsx`、`web-lab/src/App.jsx`、`web-lab/scripts/check-rules.mjs`、`web-lab/scripts/simulate.mjs`
