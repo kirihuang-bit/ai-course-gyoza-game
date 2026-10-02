@@ -30,7 +30,7 @@
 
 ## 永遠禁止
 
-- 修改老師檔：`config.js`、`menu.js`、`days.js`、`ingredients.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`web-lab/scripts/check-rules.mjs`、`web-lab/scripts/simulate.mjs`
+- 修改老師檔：`config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`InventoryPage.jsx`、`web-lab/src/App.jsx`、`web-lab/scripts/check-rules.mjs`、`web-lab/scripts/simulate.mjs`
 - 為了讓 `npm run check` 通過而修改測試、或把答案寫死
 - 新增 npm 套件；修改 `package.json`、`package-lock.json`
 - 加任何存檔或連網功能（`localStorage`、`sessionStorage`、`indexedDB`、`fetch` 等）；遊戲必須每次打開都回到初始狀態
