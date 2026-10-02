@@ -466,30 +466,28 @@ restart  jump-select  jump-start  upgrade-shop
 | 試算工具 | `web-lab/scripts/simulate.mjs`，`npm run simulate -- <策略檔或資料夾> [--json]`。讀 `web-lab/plans/*.json`，呼叫 `engine.js` 一次算完五天；每天先跑 `validatePlan`，不合法就停在那一天並說明原因。只讀不寫。結果與畫面一致（已用同一組策略比對：畫面與試算都是 6,544 元） |
 | 策略檔格式 | `{ "name": "...", "pack": "official" \| "default" \| "mine", "days": [ { "items": [ { "name": "招牌鍋貼" 或 "id": "signature", "qty": 20, "price": 70 } ], "promoCost": 0 }, …共 5 天 ] }` |
 | 範例 | `plans/example-even.json`（四樣各 10 份、原價、不宣傳；完成版 3,806 元）。`solution` 分支另有 `plans/teacher-best.json`（12,809 元） |
-| Skill 模板 | `pricing-rules`（定價心法，必做）、`result-review`（結果檢討，必做）、`demand-estimate`（需求估算，選做） |
+| Skill 模板 | `pricing-rules`（定價心法，必做）、`result-review`（結果檢討，必做）、`reorder-check`（補貨檢查，v0.4 起取代原本選做的 `demand-estimate`） |
 | Agent 模板 | `ai-manager` 改為挖空模板，工作循環：估需求 → 定價 → 試算 → 檢討 → 存下一版 → 再試算 → 瀏覽器驗證 |
 | 允許修改 | `web-lab/plans/*.json`、Skill／Agent 模板中標 ★ 的欄位；`simulate.mjs` 列為老師檔 |
 
 
 ---
 
-## 13. v0.4 新增：倉庫盤點（只是報表，不影響分數）
+## 13. v0.4 新增：倉庫盤點頁（只是報表，不影響分數）
 
 | 項目 | 內容 |
 |---|---|
-| 目的 | 把舊版教材的庫存、安全量、補貨元素帶回來，給 Skill 與 Agent 一份「會變的資料」可以讀 |
-| 原料主檔 | `web-lab/src/game/ingredients.js`（老師檔）。M001 麵皮、M002 豬絞肉、M003 高麗菜、M004 韭菜、M005 玉米粒、M006 酸辣湯料、M007 豆漿原料、M008 紅茶茶包；代號沿用 Excel 課物料主檔 |
-| 數值 | 麵皮：開店 60／每晚進貨 35／安全量 20；豬絞肉、高麗菜：40／25／12；其餘五種：15／8／4 |
-| 扣料 | 每備 1 份菜扣它用到的原料各 1 份（招牌＝麵皮＋豬絞肉＋高麗菜；韭菜＝麵皮＋豬絞肉＋韭菜；玉米＝麵皮＋高麗菜＋玉米粒；湯、飲料各一種） |
-| 不夠時 | 不足部分記為 `rushBuy`（臨時加購），庫存最低 0；錢已含在菜的成本，不影響現金 |
-| 隔天 | 明早庫存＝打烊剩餘＋每晚固定進貨；存在遊戲狀態 `state.warehouse`（只在記憶體，不存檔） |
-| 新的洞 | `rules/inventory.js`：`checkIngredient({stock, safety, rushBuy})` → `'ok'｜'low'｜'out'`；`reorderAmount({stock, safety})` → 數字。掉漆版回 `'ok'` 與 `0` |
-| 答案 | 剩 0 或 `rushBuy > 0` → `out`；`stock ≤ safety` → `low`；否則 `ok`。建議叫貨＝`max(0, safety × 2 − stock)` |
-| DayReport | 新增 `inventory`：每種原料 `{ sku, name, before, used, rushBuy, left, safety, status, reorder, delivery }`；引擎會把不合法的 status 當 `ok`、不合法數字當 0 |
-| 畫面 | 打烊報表下方「倉庫盤點」表格；`data-testid`：`inventory`、`inventory-<sku>`、`inventory-<sku>-status`、`-left`、`-rush`、`-reorder` |
-| 試算工具 | 文字輸出每天多一行「倉庫盤點」（只列缺貨與需要補貨）；`--json` 每天多 `inventory` 陣列 |
-| 自動驗收 | 引擎區 +2（扣料與隔天進貨、臨時加購）；新區「倉庫盤點規則」9 條。總數 72 條 |
-| Skill | 新增 `reorder-check`（★模板，只讀不寫）；`ai-manager` 模板多一個可勾選的 Skill 與回報欄位 |
-| 測試 | `playtest` 新增 T7：第 1 天只上架韭菜鍋貼 25 份 → 韭菜缺貨、臨時加購 10、建議叫 8 |
+| 目的 | 把舊版教材的「庫存、補貨」元素帶回來，給 Skill 與 Agent 一份可驗算的資料 |
+| 盤點對象 | **整份餐點**（玩家只備餐點，不備原料；曾試過原料盤點，因為玩家無法驗算而改掉） |
+| 欄位 | 每樣上架的菜：`stocked` 備貨、`sold` 賣出、`waste` 報廢、`missed` 賣完後沒買到的人數、`status`、`suggest` |
+| `missed` 怎麼算 | 引擎在成交時，每次 `tryBuy` 回 `sold_out` 就替那樣菜 +1（以「想買的那一樣」計，不是以客人計） |
+| 新的洞 | `rules/inventory.js`：`checkDish({stocked, sold, waste, missed})` → `'ok'｜'out'｜'over'`；`suggestQty({sold, missed})` → 數字。掉漆版回 `'ok'` 與 `0` |
+| 答案 | `missed > 0` → `out`；`waste ≥ INVENTORY.wasteAlert`（5）→ `over`；否則 `ok`。建議＝`sold + missed` |
+| DayReport | 新增 `inventory` 陣列；引擎把不合法的 status 當 `ok`、不合法數字當 0 |
+| 頁面 | 上方選單新增「倉庫盤點」（`InventoryPage.jsx`，老師檔）。三個頁面一直掛著、只切換顯示，換頁不重來；進度由 `GameShop` 透過 `onProgress` 交給 `App`，只在記憶體，不存檔。營業動畫中的那一天不顯示（打烊後才盤點）。`data-testid`：`nav-inventory`、`inventory-page`、`inv-empty`、`inv-pending`、`inv-day-<天>`、`inv-<天>-<菜id>-sold／-waste／-missed／-status／-suggest` |
+| 試算工具 | 每天多一行「倉庫盤點」；`--json` 每天多 `inventory` 陣列 |
+| 自動驗收 | 引擎區 +2；新區「倉庫盤點規則」9 條（最後一條整天測試需要成交規則也修好）。總數 72 條 |
+| Skill | `reorder-check`（★模板，只讀不寫，先驗算再建議）；移除 `demand-estimate` |
+| 測試 | `playtest` T7：預設路人、只上架招牌 5 份 → 賣 5、沒買到 5、缺貨、建議 10 |
 | 換關版本 | checkpoint-1、2 為掉漆版；checkpoint-3、4 與 solution 已完成 |
 | 分數 | 不受影響：teacher-best 仍為 12,809 元，example-even 完成版仍為 3,806 元 |
