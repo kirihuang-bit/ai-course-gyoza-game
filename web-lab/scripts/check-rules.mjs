@@ -4,12 +4,15 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+//import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const gameDir = path.resolve(here, '../src/game');
 const srcDir = path.resolve(here, '../src');
-const load = (rel) => import(path.join(gameDir, rel)).then((m) => m);
+//const load = (rel) => import(path.join(gameDir, rel)).then((m) => m);
+const load = (rel) =>
+  import(pathToFileURL(path.join(gameDir, rel)).href).then((m) => m);
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(gameDir, rel), 'utf8'));
 
 const { newGame, simulateDay, countArrivals, buildQueue } = await load('engine.js');
