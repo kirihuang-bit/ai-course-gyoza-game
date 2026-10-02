@@ -9,7 +9,7 @@ description: 檢視一次 AI 修改的 git diff 時使用。逐檔說明改了�
 
 1. 這次動到**哪些檔案**
 2. 每個檔「**加了什麼、刪了什麼**」(用白話,不要貼整段程式)
-3. 有沒有**越界修改** —— 改到跟本次任務無關的檔案或區塊?對照 `AGENTS.md` 的允許修改清單:原則上只能動 `web-lab/src/game/rules/` 與 `web-lab/src/game/customers/my-customers.json`
+3. 有沒有**越界修改** —— 改到跟本次任務無關的檔案或區塊?對照 `AGENTS.md` 的允許修改清單:原則上只能動 `web-lab/src/game/rules/`、`web-lab/src/game/customers/my-customers.json`、`web-lab/plans/`，以及 Skill／Agent 模板裡標 ★ 的欄位（回家作業分支另有例外，見 `AGENTS.md`）
 4. 有沒有**可疑變更** —— 刪掉看起來重要的東西、偷加套件、動了設定檔或 `.env`、改了 `scripts/check-rules.mjs`(改測試讓它通過)、把答案寫死、加了 localStorage 之類的存檔功能?
 5. **結論**:可不可以放心 commit?
    - 可以 → 建議 commit 訊息一句
