@@ -21,7 +21,6 @@ description: AI 店長。要讓 AI 自己規劃五天的經營策略、用試算
 
 - [ ] `pricing-rules` 定價心法 ── 負責：
 - [ ] `result-review` 結果檢討 ── 負責：
-- [ ] `demand-estimate` 需求估算（選做）── 負責：
 - [ ] `reorder-check` 補貨檢查 ── 負責：
 - [ ] 試算工具 `npm run simulate`（在 `web-lab` 資料夾執行）── 負責：
 - [ ] 瀏覽器 MCP `chrome-devtools` ── 負責：
@@ -32,11 +31,11 @@ description: AI 店長。要讓 AI 自己規劃五天的經營策略、用試算
 ## 工作循環
 
 1. 讀規則書 `docs/RULES.md` 和試算範例 `web-lab/plans/example-even.json`
-2. 用需求估算和定價心法，寫出第一版策略 `web-lab/plans/v1.json`
+2. 用定價心法，寫出第一版策略 `web-lab/plans/v1.json`
 3. 執行 `npm run simulate -- plans/v1.json` 看結果
-4. 用結果檢討找出問題，存成下一版（`v2.json`、`v3.json`…），再試算
+4. 用補貨檢查算出每樣菜下一版該備幾份、用結果檢討找出其他問題，存成下一版（`v2.json`、`v3.json`…），再試算
 5. 至少試 ★（填數字）版，執行 `npm run simulate -- plans/` 看排名
-6. 用瀏覽器 MCP 打開 http://localhost:5180，選官方標準關，照最好的一版實際玩一次，確認最終資金和試算一樣
+6. 用瀏覽器 MCP 打開 http://localhost:5180，選官方標準關，照最好的一版實際玩一次，確認最終資金和試算一樣；再切到「倉庫盤點」頁，確認盤點數字和試算一樣
 
 ## 禁止事項
 
@@ -53,7 +52,7 @@ description: AI 店長。要讓 AI 自己規劃五天的經營策略、用試算
 最好的一版：檔名、最終資金、星等、報廢
 它跟我自己玩的最高分比：
 瀏覽器實際玩的結果是否和試算一樣：
-最好那一版的補貨清單：
+最好那一版每天的盤點（缺貨、報廢過多各幾樣）：
 我（AI 店長）發現的經營規律：
 ```
 

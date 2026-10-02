@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { brand, courseModules, stats, workflow, tabs, checkpoints } from './data.js';
 import { Aurora, GradientText } from './uiEffects.jsx';
 import { GyozaPan, StageIcon } from './artwork.jsx';
 import GameShop from './game/GameShop.jsx';
+import InventoryPage from './game/InventoryPage.jsx';
 
 // 四個課程模組配四個製作階段:麵皮 → 包餡 → 煎製 → 出餐。
 const moduleStage = { C1: 'wrapper', C2: 'fill', C3: 'sear', C4: 'serve' };
@@ -119,29 +120,43 @@ function HomePage() {
   );
 }
 
-const views = {
-  home: { label: '首頁', component: <HomePage /> },
-  shop: { label: '開店', component: <GameShop /> },
-};
+const VIEWS = [
+  { key: 'home', label: '首頁' },
+  { key: 'shop', label: '開店' },
+  { key: 'inventory', label: '倉庫盤點' },
+];
 
 export default function App() {
   const [view, setView] = useState('home');
+  // 遊戲進度只放在記憶體裡，給「倉庫盤點」頁讀；重新整理就消失（不存檔）
+  const [progress, setProgress] = useState(null);
+  const handleProgress = useCallback((p) => setProgress(p), []);
 
   return (
     <>
       <nav className="topnav" aria-label="頁面切換">
-        {Object.entries(views).map(([key, item]) => (
+        {VIEWS.map((item) => (
           <button
-            className={view === key ? 'active' : ''}
-            key={key}
-            onClick={() => setView(key)}
+            className={view === item.key ? 'active' : ''}
+            key={item.key}
+            data-testid={`nav-${item.key}`}
+            onClick={() => setView(item.key)}
             type="button"
           >
             {item.label}
           </button>
         ))}
       </nav>
-      {views[view].component}
+      {/* 三個頁面都一直掛著、只切換顯示，所以換頁不會讓遊戲重來 */}
+      <div hidden={view !== 'home'}>
+        <HomePage />
+      </div>
+      <div hidden={view !== 'shop'}>
+        <GameShop onProgress={handleProgress} />
+      </div>
+      <div hidden={view !== 'inventory'}>
+        <InventoryPage progress={progress} />
+      </div>
     </>
   );
 }
