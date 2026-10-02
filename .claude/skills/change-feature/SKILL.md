@@ -36,7 +36,7 @@ E. 下一步建議：
 
 ## 絕對不准
 
-- 改 `config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`scripts/check-rules.mjs`、`scripts/simulate.mjs`
+- 改 `config.js`、`menu.js`、`days.js`、`engine.js`、`validatePlan.js`、`validateCustomers.js`、`packs.js`、`GameShop.jsx`、`InventoryPage.jsx`、`App.jsx`、`scripts/check-rules.mjs`、`scripts/simulate.mjs`（回家作業分支的例外見 `AGENTS.md`：可以改已確認規格書裡列出的檔案，但兩支 scripts 永遠不能改）
 - 為了讓測試通過而修改測試、或把答案寫死
 - 新增套件、修改 `package.json`
 - 加任何存檔功能（localStorage 等）
