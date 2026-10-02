@@ -48,3 +48,8 @@ export const WASTE_FEE = {
   bigThreshold: 15, // 超過 15 份……
   bigFee: 50, // ……另加 50 元大型廚餘清運費
 };
+
+// 倉庫盤點的參數（給 rules/inventory.js 用）
+export const INVENTORY = {
+  wasteAlert: 5, // 一樣菜報廢達到這個份數，就標「報廢過多」
+};

@@ -1,20 +1,23 @@
-// 倉庫盤點規則：打烊後每種原料的狀態、明天要補多少
-// 對應規則書：「倉庫盤點」；原料資料在 ingredients.js
+// 倉庫盤點規則：打烊後每樣菜的盤點狀態、明天建議備幾份
+// 對應規則書：「倉庫盤點」；盤點結果顯示在「倉庫盤點」頁
 // 驗收：npm run check 的「倉庫盤點規則」
 
-// 輸入：
-//   stock    打烊後這種原料還剩幾份（最少是 0）
-//   safety   這種原料的安全量
-//   rushBuy  今天倉庫不夠、臨時加購了幾份（沒有就是 0）
-// 回傳：'ok'（正常）| 'low'（需要補貨）| 'out'（缺貨）
-export function checkIngredient({ stock, safety, rushBuy }) {
-  if (stock <= 0 || rushBuy > 0) return 'out';
-  if (stock <= safety) return 'low';
+import { INVENTORY } from '../config.js';
+
+// 輸入（都是這樣菜今天的數字）：
+//   stocked  早上備了幾份
+//   sold     賣出幾份
+//   waste    打烊報廢幾份
+//   missed   賣完之後，還有幾位客人想買卻買不到
+// 回傳：'ok'（正常）| 'out'（缺貨）| 'over'（報廢過多）
+export function checkDish({ stocked, sold, waste, missed }) {
+  if (missed > 0) return 'out';
+  if (waste >= INVENTORY.wasteAlert) return 'over';
   return 'ok';
 }
 
-// 輸入：打烊後剩幾份、安全量
-// 回傳：建議追加叫貨幾份
-export function reorderAmount({ stock, safety }) {
-  return Math.max(0, safety * 2 - stock);
+// 輸入：今天賣出幾份、賣完後沒買到的人數
+// 回傳：明天建議備幾份
+export function suggestQty({ sold, missed }) {
+  return sold + missed;
 }

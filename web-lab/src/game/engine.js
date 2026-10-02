@@ -13,15 +13,14 @@ import { wasteFee as calcWasteFee, dailyProfit } from './rules/money.js';
 import { updateStars } from './rules/reputation.js';
 import { checkTask } from './rules/tasks.js';
 import { pickLine } from './rules/speech.js';
-import { checkIngredient, reorderAmount } from './rules/inventory.js';
-import { INGREDIENTS, STOCK_STATUS, startWarehouse } from './ingredients.js';
+import { checkDish, suggestQty } from './rules/inventory.js';
 
 // 開新的一場。mode = 'normal'（正式）或 'jump'（跳關練習，不列入排行榜）
 export function newGame({ mode = 'normal', startDay = 1 } = {}) {
   if (mode === 'jump') {
-    return { mode, day: startDay, cash: JUMP_START.cash, stars: JUMP_START.stars, warehouse: startWarehouse(), history: [] };
+    return { mode, day: startDay, cash: JUMP_START.cash, stars: JUMP_START.stars, history: [] };
   }
-  return { mode: 'normal', day: 1, cash: START_CASH, stars: START_STARS, warehouse: startWarehouse(), history: [] };
+  return { mode: 'normal', day: 1, cash: START_CASH, stars: START_STARS, history: [] };
 }
 
 export function isFinished(state) {
@@ -58,33 +57,24 @@ function safeNumber(value, fallback) {
   return Number.isFinite(value) ? value : fallback;
 }
 
-// 倉庫盤點：備料時扣原料，倉庫不夠就臨時加購；打烊後判斷狀態；晚上供應商送貨。
-// 盤點只是報表，不影響現金、星等和分數（原料的錢已經算在菜的成本裡）。
-function takeInventory(warehouseBefore, plan) {
-  const rows = [];
-  const nextWarehouse = {};
-  for (const ing of INGREDIENTS) {
-    const before = warehouseBefore?.[ing.sku] ?? ing.start;
-    const used = plan.items.filter((item) => ing.dishes.includes(item.id)).reduce((sum, item) => sum + item.qty, 0);
-    const rushBuy = Math.max(0, used - before);
-    const left = Math.max(0, before - used);
-    const status = checkIngredient({ stock: left, safety: ing.safety, rushBuy });
-    const reorder = safeNumber(reorderAmount({ stock: left, safety: ing.safety }), 0);
-    rows.push({
-      sku: ing.sku,
-      name: ing.name,
-      before,
-      used,
-      rushBuy,
-      left,
-      safety: ing.safety,
-      status: STOCK_STATUS.includes(status) ? status : 'ok',
-      reorder,
-      delivery: ing.delivery,
-    });
-    nextWarehouse[ing.sku] = left + ing.delivery;
-  }
-  return { rows, nextWarehouse };
+// 倉庫盤點：每樣上架的菜，今天備了幾份、賣了幾份、報廢幾份、賣完後有幾位客人沒買到。
+// 盤點只是報表，不影響現金、星等和分數。
+const DISH_STATUS = ['ok', 'out', 'over'];
+function takeInventory(plan, sold, waste, missed) {
+  return plan.items.map((item) => {
+    const row = {
+      id: item.id,
+      name: findDish(item.id).name,
+      stocked: item.qty,
+      sold: sold[item.id] ?? 0,
+      waste: waste[item.id] ?? 0,
+      missed: missed[item.id] ?? 0,
+    };
+    const status = checkDish({ stocked: row.stocked, sold: row.sold, waste: row.waste, missed: row.missed });
+    row.status = DISH_STATUS.includes(status) ? status : 'ok';
+    row.suggest = safeNumber(suggestQty({ sold: row.sold, missed: row.missed }), 0);
+    return row;
+  });
 }
 
 // 跑完一天。回傳 { state: 隔天的狀態, report: 今天的結果 }
@@ -110,6 +100,7 @@ export function simulateDay(state, plan, pack) {
   const queue = buildQueue(arrivals);
 
   const sold = {};
+  const missed = {}; // 賣完之後還想買的人數（每樣菜分開算）
   let revenue = 0;
   let satisfied = 0;
   let neutral = 0;
@@ -153,8 +144,9 @@ export function simulateDay(state, plan, pack) {
         sold[id] = (sold[id] ?? 0) + 1;
         bought.push({ id, price: item.price });
         if (index === 0 && item.price <= findDish(id).refPrice) firstWantSatisfied = true;
-      } else if (!firstReason) {
-        firstReason = result.reason;
+      } else {
+        if (result.reason === 'sold_out') missed[id] = (missed[id] ?? 0) + 1;
+        if (!firstReason) firstReason = result.reason;
       }
     });
 
@@ -225,15 +217,13 @@ export function simulateDay(state, plan, pack) {
   report.endCash = startCash + profit + bonus;
 
   // 打烊盤點（只是報表）
-  const inventory = takeInventory(state.warehouse, plan);
-  report.inventory = inventory.rows;
+  report.inventory = takeInventory(plan, sold, waste, missed);
 
   const nextState = {
     ...state,
     day: day + 1,
     cash: report.endCash,
     stars: starsAfter,
-    warehouse: inventory.nextWarehouse,
     history: [...state.history, report],
   };
   return { state: nextState, report };
