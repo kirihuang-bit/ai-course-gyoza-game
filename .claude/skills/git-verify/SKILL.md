@@ -11,7 +11,7 @@ description: 一次修改完成、要驗收與存檔時使用。引導 git statu
    - 若有越界 → 建議 `git restore <檔>` 還原該檔,不要 commit
 4. 範圍 OK → `git add .`
 5. 產生一句清楚的 commit 訊息(動詞開頭、講改了什麼),例如
-   `git commit -m "修正 risk_level 輸出格式，改回 low/medium/high"`
+   `git commit -m "修正成交規則：賣完就買不到"`
 6. `commit` 前請使用者最後確認一次 diff
 
 **安全規則**:不要主動執行 `reset --hard`、`checkout .`、`clean` 這類會丟掉改動的指令;要用時先說明後果、等使用者同意。
