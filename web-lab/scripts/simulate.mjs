@@ -10,12 +10,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const webLab = path.resolve(here, '..');
 const gameDir = path.join(webLab, 'src/game');
-const load = (rel) => import(path.join(gameDir, rel));
+const load = (rel) =>
+  import(pathToFileURL(path.join(gameDir, rel)).href);
 
 const { newGame, simulateDay } = await load('engine.js');
 const { validatePlan, formatMoney } = await load('validatePlan.js');
